@@ -68,10 +68,12 @@ pub fn get_id_from_state(cube: [u8; 16]) -> u32 {
     return id_0*3_u32.pow(6) + id_1
 }
 
-pub fn generate_all_algs(depth: u8) -> Vec<String> {
+pub fn generate_all_algs(depth: u8, print_progress: bool) -> Vec<String> {
     let mut all_algs = Vec::new();
     for i in 1..=depth {
-        println!("Generating algs of length {}", i);
+        if print_progress {
+            println!("Generating algs of length {}", i);
+        }
         let mut alg_index: alg_index::AlgIndex = alg_index::assign_alg_index(i as usize);
         let start_alg: String = alg_index.to_string();
         alg_index.increment();
@@ -83,8 +85,10 @@ pub fn generate_all_algs(depth: u8) -> Vec<String> {
     all_algs
 }
 
-pub fn generate_table(depth: u8) -> HashMap<u32, String> {
-    println!("Generating table...");
+pub fn generate_table(depth: u8, print_progress: bool) -> HashMap<u32, String> {
+    if print_progress {
+        println!("Generating table...");
+    }
     let move_map: HashMap<&str, [u8; 16]> = HashMap::from([
         ("R", [0, 2, 5, 3, 4, 6, 1, 7, 0, 1, 2, 0, 0, 1, 2, 0]),
         ("U", [3, 0, 1, 2, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0]),
@@ -96,7 +100,7 @@ pub fn generate_table(depth: u8) -> HashMap<u32, String> {
         ("U2", [2, 3, 0, 1, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0]),
         ("F2", [0, 1, 4, 5, 2, 3, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0]),
     ]);
-    let algs: Vec<String> = generate_all_algs(depth);
+    let algs: Vec<String> = generate_all_algs(depth, false);
     let mut table: HashMap<u32, String> = HashMap::new();
     for alg in algs.iter() {
         let cube = get_cube_state(alg, &move_map);
@@ -109,6 +113,10 @@ pub fn generate_table(depth: u8) -> HashMap<u32, String> {
 }
 
 pub fn solve(mut cube: [u8; 16], search_algs: &Vec<String>, table: &HashMap<u32, String>) -> String {
+    if cube == [0, 1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0 ,0] {
+        return "".to_string()
+    }
+
     let move_map: HashMap<&str, [u8; 16]> = HashMap::from([
         ("R", [0, 2, 5, 3, 4, 6, 1, 7, 0, 1, 2, 0, 0, 1, 2, 0]),
         ("U", [3, 0, 1, 2, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0]),
