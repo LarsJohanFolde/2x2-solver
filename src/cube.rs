@@ -72,10 +72,11 @@ pub fn generate_all_algs(depth: u8, print_progress: bool) -> Vec<String> {
     let mut all_algs = Vec::new();
     for i in 1..=depth {
         if print_progress {
-            println!("Generating algs of length {}", i);
+            println!("Generating table of depth {}", i);
         }
         let mut alg_index: alg_index::AlgIndex = alg_index::assign_alg_index(i as usize);
         let start_alg: String = alg_index.to_string();
+        all_algs.push(alg_index.to_string());
         alg_index.increment();
         while alg_index.to_string() != start_alg {
             all_algs.push(alg_index.to_string());
@@ -100,7 +101,7 @@ pub fn generate_table(depth: u8, print_progress: bool) -> HashMap<u32, String> {
         ("U2", [2, 3, 0, 1, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0]),
         ("F2", [0, 1, 4, 5, 2, 3, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0]),
     ]);
-    let algs: Vec<String> = generate_all_algs(depth, false);
+    let algs: Vec<String> = generate_all_algs(depth, print_progress);
     let mut table: HashMap<u32, String> = HashMap::new();
     for alg in algs.iter() {
         let cube = get_cube_state(alg, &move_map);
@@ -130,17 +131,14 @@ pub fn solve(mut cube: [u8; 16], search_algs: &Vec<String>, table: &HashMap<u32,
     ]);
     let id: u32 = get_id_from_state(cube);
     if let Some(solution) = table.get(&id) {
-        return solution.clone()
-    }
-    if let Some(solution) = table.get(&id) {
-        return solution.clone()
+        return solution.to_string()
     }
 
     for alg in search_algs.iter() {
         cube = apply_alg(cube, alg.to_string(), &move_map);
         let id = get_id_from_state(cube);
         if let Some(solution) = table.get(&id) {
-            return format!("{} {}", alg, solution.clone());
+            return format!("{} {}", alg, solution.to_string());
         }
         cube = apply_alg(cube, inverse_solution(alg), &move_map);
     }

@@ -18,7 +18,7 @@ pub fn assign_alg_index(depth: usize) -> AlgIndex {
 }
 
 impl AlgIndex {
-    pub fn inc(&mut self) {
+    fn inc(&mut self) {
         for i in 0..self.alg.len() {
             self.alg[i] += 1;
             self.alg[i] %= 9;
