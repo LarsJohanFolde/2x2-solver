@@ -11,10 +11,7 @@ pub fn assign_alg_index(depth: usize) -> AlgIndex {
         result.extend_from_slice(&pattern);
     }
     result.truncate(depth);
-    AlgIndex {
-        depth,
-        alg: result,
-    }
+    AlgIndex { depth, alg: result }
 }
 
 impl AlgIndex {
@@ -27,7 +24,7 @@ impl AlgIndex {
             }
         }
     }
-    
+
     pub fn increment(&mut self) {
         self.inc();
         while !self.is_valid() {
@@ -36,12 +33,12 @@ impl AlgIndex {
     }
 
     pub fn is_valid(&self) -> bool {
-        for i in 0..self.depth-1 {
-            if self.alg[i] / 3 == self.alg[i+1] / 3 {
-                return false
+        for i in 0..self.depth - 1 {
+            if self.alg[i] / 3 == self.alg[i + 1] / 3 {
+                return false;
             }
         }
-        return true
+        return true;
     }
 
     pub fn to_string(&self) -> String {
