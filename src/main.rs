@@ -22,18 +22,18 @@ fn main() {
     ]);
 
     // Solve by args
-    // let args: Vec<String> = env::args().collect();
-    // println!("{:?}", args);
-    //
-    // let mut scramble = String::new();
-    // for (i, arg) in args.iter().enumerate() {
-    //     if i == 0 {
-    //         continue;
-    //     }
-    //     scramble.push_str(arg);
-    //     scramble.push_str(" ");
-    // }
-    // scramble = scramble.trim().to_string();
+    let args: Vec<String> = env::args().collect();
+    println!("{:?}", args);
+
+    let mut scramble = String::new();
+    for (i, arg) in args.iter().enumerate() {
+        if i == 0 {
+            continue;
+        }
+        scramble.push_str(arg);
+        scramble.push_str(" ");
+    }
+    scramble = scramble.trim().to_string();
 
     // let now = Instant::now();
     // println!("Reading file: {:?}", now.elapsed());
@@ -44,18 +44,17 @@ fn main() {
     // let t_perm: [u8; 16] = [0, 2, 1, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0];
 
     let search_algs: Vec<String> = cube::generate_all_algs(3, false);
-    let table: HashMap<u32, String> = cube::generate_table(9, true);
-    // let now = Instant::now();
-    // let cube = get_cube_state("F' U2 R U R' U2 R U' R' U' R", &move_map);
-    // let now = Instant::now();
-    // let solution = cube::solve(cube::get_cube_state(&scramble, &move_map), &search_algs, &table);
-    // let moves: Vec<&str> = solution.split(" ").collect();
-    // println!("{} ({})", solution, moves.len());
-    // println!("{:?}", now.elapsed());
+    let table: HashMap<u32, String> = cube::generate_table(8, true);
 
     let now = Instant::now();
-    file_to_csv("scrambles.txt", search_algs, table);
+    let solution = cube::solve(cube::get_cube_state(&scramble, &move_map), &search_algs, &table);
+    let moves: Vec<&str> = solution.split(" ").collect();
+    println!("\n{} ({})", solution, moves.len());
     println!("{:?}", now.elapsed());
+
+    // let now = Instant::now();
+    // file_to_csv("scrambles.txt", search_algs, table);
+    // println!("{:?}", now.elapsed());
 
     // println!("{} ({}), in {:?}", solution, moves.len(), now.elapsed());
 
