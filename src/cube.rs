@@ -134,16 +134,6 @@ pub fn generate_all_algs(depth: u8, print_progress: bool) -> Vec<String> {
     all_algs
 }
 
-pub fn cube_from(scramble: &str) -> Cube {
-    let mut cube: Cube = Cube::new();
-    if scramble == "" {
-        return cube;
-    } else {
-        cube.apply_alg(scramble.to_string());
-        return cube;
-    }
-}
-
 pub fn generate_table(depth: u8, print_progress: bool) -> HashMap<u32, String> {
     if print_progress {
         println!("Generating table...");
@@ -151,7 +141,7 @@ pub fn generate_table(depth: u8, print_progress: bool) -> HashMap<u32, String> {
     let algs: Vec<String> = generate_all_algs(depth, print_progress);
     let mut table: HashMap<u32, String> = HashMap::new();
     for alg in algs.iter() {
-        let cube: Cube = cube_from(alg);
+        let cube = Cube::from(alg);
         let id = cube.get_id();
         if !table.contains_key(&id) {
             table.insert(id, inverse_solution(alg));
