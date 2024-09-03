@@ -7,34 +7,36 @@ pub struct Cube {
     move_map: HashMap<&'static str, [u8; 16]>
 }
 
-pub fn new() -> Cube {
-    return Cube {
-        state: [0, 1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0],
-        move_map: HashMap::from([
-            ("R", [0, 2, 5, 3, 4, 6, 1, 7, 0, 1, 2, 0, 0, 1, 2, 0]),
-            ("U", [3, 0, 1, 2, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0]),
-            ("F", [0, 1, 3, 4, 5, 2, 6, 7, 0, 0, 1, 2, 1, 2, 0, 0]),
-            ("R'", [0, 6, 1, 3, 4, 2, 5, 7, 0, 1, 2, 0, 0, 1, 2, 0]),
-            ("U'", [1, 2, 3, 0, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0]),
-            ("F'", [0, 1, 5, 2, 3, 4, 6, 7, 0, 0, 1, 2, 1, 2, 0, 0]),
-            ("R2", [0, 5, 6, 3, 4, 1, 2, 7, 0, 0, 0, 0, 0, 0, 0, 0]),
-            ("U2", [2, 3, 0, 1, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0]),
-            ("F2", [0, 1, 4, 5, 2, 3, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0]),
-        ])
-    }
-}
 
-pub fn from(scramble: &str) -> Cube {
-    let mut cube: Cube = new();
-    if scramble == "" {
-        return cube;
-    } else {
-        cube.apply_alg(scramble.to_string());
-        return cube;
-    }
-}
 
 impl Cube {
+    pub fn new() -> Cube {
+        return Cube {
+            state: [0, 1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0],
+            move_map: HashMap::from([
+                ("R", [0, 2, 5, 3, 4, 6, 1, 7, 0, 1, 2, 0, 0, 1, 2, 0]),
+                ("U", [3, 0, 1, 2, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0]),
+                ("F", [0, 1, 3, 4, 5, 2, 6, 7, 0, 0, 1, 2, 1, 2, 0, 0]),
+                ("R'", [0, 6, 1, 3, 4, 2, 5, 7, 0, 1, 2, 0, 0, 1, 2, 0]),
+                ("U'", [1, 2, 3, 0, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0]),
+                ("F'", [0, 1, 5, 2, 3, 4, 6, 7, 0, 0, 1, 2, 1, 2, 0, 0]),
+                ("R2", [0, 5, 6, 3, 4, 1, 2, 7, 0, 0, 0, 0, 0, 0, 0, 0]),
+                ("U2", [2, 3, 0, 1, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0]),
+                ("F2", [0, 1, 4, 5, 2, 3, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0]),
+            ])
+        }
+    }
+
+    pub fn from(scramble: &str) -> Cube {
+        let mut cube: Cube = Cube::new();
+        if scramble == "" {
+            return cube;
+        } else {
+            cube.apply_alg(scramble.to_string());
+            return cube;
+        }
+    }
+
     fn apply_move(&mut self, move_array: [u8; 16]) {
         // Save the initial state of the array representation of the Cube
         let initial_state: [u8; 16] = self.state;
@@ -133,7 +135,7 @@ pub fn generate_all_algs(depth: u8, print_progress: bool) -> Vec<String> {
 }
 
 pub fn cube_from(scramble: &str) -> Cube {
-    let mut cube: Cube = new();
+    let mut cube: Cube = Cube::new();
     if scramble == "" {
         return cube;
     } else {

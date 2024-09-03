@@ -1,6 +1,6 @@
 use csv_export::file_to_csv;
 #[allow(unused_imports)]
-use cube::{generate_all_algs, generate_table, get_state_from};
+use cube::{Cube, generate_all_algs, generate_table, get_state_from};
 #[allow(unused_imports)]
 use serde::{Deserialize, Serialize};
 #[allow(unused_imports)]
@@ -12,13 +12,16 @@ mod cube;
 mod csv_export;
 
 fn main() {
-    let search_algs = generate_all_algs(3, true);
-    let table = generate_table(8, true);
+    // let search_algs = generate_all_algs(3, true);
+    // let table = generate_table(8, true);
     // let mut cube = cube::from("R U R2 F R'");
+    let cube = Cube::new();
 
-    let now = Instant::now();
-    file_to_csv("scrambles.txt", search_algs, table);
-    println!("{:?}", now.elapsed());
+    println!("{:?}", cube.state);
+
+    // let now = Instant::now();
+    // file_to_csv("scrambles.txt", search_algs, table);
+    // println!("{:?}", now.elapsed());
 }
 
 #[allow(dead_code)]
