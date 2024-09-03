@@ -8,8 +8,6 @@ pub struct Cube {
     move_map: HashMap<&'static str, [u8; 16]>
 }
 
-
-
 impl Cube {
     pub fn new() -> Cube {
         return Cube {
@@ -160,38 +158,4 @@ pub fn generate_table(depth: u8, print_progress: bool) -> HashMap<u32, String> {
         }
     }
     table
-}
-
-fn apply_move(mut state: [u8; 16], move_array: [u8; 16]) -> [u8; 16] {
-    let initial_state: [u8; 16] = state.clone();
-
-    // Permutation
-    for i in 0..7 {
-        state[i] = initial_state[move_array[i] as usize];
-    }
-
-    // Orientation
-    for i in 8..15 {
-        state[i] = (initial_state[(move_array[i - 8] + 8) as usize] + move_array[i]) % 3;
-    }
-
-    return state;
-}
-
-fn apply_alg(mut state: [u8; 16], alg: String, move_map: &HashMap<&str, [u8; 16]>) -> [u8; 16] {
-    let moves: Vec<&str> = alg.split(" ").collect();
-    for current_move in moves.iter() {
-        state = apply_move(state, move_map[current_move]);
-    }
-    return state;
-}
-
-pub fn get_state_from(scramble: &str, move_map: &HashMap<&str, [u8; 16]>) -> [u8; 16] {
-    let mut state: [u8; 16] = [0, 1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0];
-    if scramble == "" {
-        return state;
-    } else {
-        state = apply_alg(state, scramble.to_string(), move_map);
-        return state;
-    }
 }
