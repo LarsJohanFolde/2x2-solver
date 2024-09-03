@@ -2,6 +2,7 @@ use crate::alg_index;
 use std::collections::HashMap;
 
 #[allow(dead_code)]
+#[derive(Clone)]
 pub struct Cube {
     pub state: [u8; 16],
     move_map: HashMap<&'static str, [u8; 16]>
@@ -74,24 +75,25 @@ impl Cube {
     }
 
     pub fn find_solution(
-        &mut self,
+        &self,
         search_algs: &Vec<String>,
         table: &HashMap<u32, String>,
     ) -> String {
+        let mut cube = self.clone();
         if self.state == [0, 1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0] {
             return "".to_string();
         }
 
-        if let Some(solution) = table.get(&self.get_id()) {
+        if let Some(solution) = table.get(&cube.get_id()) {
             return solution.to_string();
         }
 
         for alg in search_algs.iter() {
-            self.apply_alg(alg.to_string());
-            if let Some(solution) = table.get(&self.get_id()) {
+            cube.apply_alg(alg.to_string());
+            if let Some(solution) = table.get(&cube.get_id()) {
                 return format!("{} {}", alg, solution.to_string());
             }
-            self.apply_alg(inverse_solution(alg));
+            cube.apply_alg(inverse_solution(alg));
         }
         return "No solution found".to_string();
     }

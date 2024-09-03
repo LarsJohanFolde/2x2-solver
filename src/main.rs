@@ -12,10 +12,13 @@ mod cube;
 mod csv_export;
 
 fn main() {
-    // let search_algs = generate_all_algs(3, true);
-    // let table = generate_table(8, true);
+    let search_algs = generate_all_algs(3, true);
+    let table = generate_table(8, true);
     // let mut cube = cube::from("R U R2 F R'");
     let cube = Cube::new();
+    let cube2 = Cube::from("R U R' F2"); 
+
+    println!("{}", cube2.find_solution(&search_algs, &table));
 
     println!("{:?}", cube.state);
 
