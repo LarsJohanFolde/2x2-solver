@@ -1,3 +1,4 @@
+#![allow(unused)]
 pub struct AlgIndex {
     depth: usize,
     alg: Vec<u8>,

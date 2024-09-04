@@ -1,3 +1,4 @@
+#![allow(unused)]
 use crate::alg_index;
 use std::collections::HashMap;
 
