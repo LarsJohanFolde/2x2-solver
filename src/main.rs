@@ -1,11 +1,8 @@
+#![allow(unused_imports)]
 use csv_export::file_to_csv;
-#[allow(unused_imports)]
 use cube::{Cube, generate_all_algs, generate_table};
-#[allow(unused_imports)]
 use serde::{Deserialize, Serialize};
-#[allow(unused_imports)]
 use std::{collections::HashMap, fs};
-#[allow(unused_imports)]
 use std::{env, io, time::Instant};
 mod alg_index;
 mod cube;
