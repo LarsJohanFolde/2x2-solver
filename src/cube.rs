@@ -38,7 +38,7 @@ mod tests {
 
 impl Cube {
     pub fn new() -> Cube {
-        return Cube {
+        Cube {
             state: [0, 1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0],
             move_map: HashMap::from([
                 ("R", [0, 2, 5, 3, 4, 6, 1, 7, 0, 1, 2, 0, 0, 1, 2, 0]),
@@ -57,10 +57,10 @@ impl Cube {
     pub fn from(scramble: &str) -> Cube {
         let mut cube: Cube = Cube::new();
         if scramble == "" {
-            return cube;
+            return cube
         } else {
             cube.apply_alg(scramble.to_string());
-            return cube;
+            return cube
         }
     }
 
@@ -86,7 +86,7 @@ impl Cube {
         }
     }
 
-    pub fn get_id(&self) -> u32 {
+    fn get_id(&self) -> u32 {
         let mut id_0: u32 = 0;
         for i in 0..7 {
             id_0 += self.state[i] as u32 * 7_u32.pow(i as u32);
@@ -97,7 +97,7 @@ impl Cube {
             id_1 += self.state[i + 8] as u32 * 3_u32.pow(i as u32);
         }
 
-        return id_0 * 3_u32.pow(6) + id_1;
+        id_0 * 3_u32.pow(6) + id_1
     }
 
     pub fn find_solution(
@@ -107,21 +107,21 @@ impl Cube {
     ) -> String {
         let mut cube = self.clone();
         if self.state == [0, 1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0] {
-            return "".to_string();
+            return "".to_string()
         }
 
         if let Some(solution) = table.get(&cube.get_id()) {
-            return solution.to_string();
+            return solution.to_string()
         }
 
         for alg in search_algs.iter() {
             cube.apply_alg(alg.to_string());
             if let Some(solution) = table.get(&cube.get_id()) {
-                return format!("{} {}", alg, solution.to_string());
+                return format!("{} {}", alg, solution.to_string())
             }
             cube.apply_alg(inverse_solution(alg));
         }
-        return "No solution found".to_string();
+        "No solution found".to_string()
     }
 
 }
@@ -141,7 +141,7 @@ fn inverse_solution(solution: &str) -> String {
         }
         output.push_str(" ");
     }
-    return output.trim().to_string();
+    output.trim().to_string()
 }
 
 pub fn generate_all_algs(depth: u8, print_progress: bool) -> Vec<String> {
